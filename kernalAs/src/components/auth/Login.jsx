@@ -4,11 +4,14 @@ import { auth } from "../../firebase/firebase";
 import { GoogleAuthProvider } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom"
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { user } from '../../context/atoms';
 
 
 const provider = new GoogleAuthProvider();
 
 const Login = () => {
+    const [mainuser, setUser] = useRecoilState(user)
 
     const navigate = useNavigate();
     const loginRedirect = () => {
@@ -57,7 +60,9 @@ const Login = () => {
                 formData.email,
                 formData.password
             );
-            console.log(user);
+
+            setUser(user);
+            console.log("Name" + user.displayName)
         } catch (error) {
             console.error(error.message);
             setErrors("Failed to create an account");
@@ -74,8 +79,9 @@ const Login = () => {
                 if (!credential) {
                     return;
                 }
-                const user = result.user;
-                console.log(user);
+                const newuser = result.user;
+                setUser(newuser);
+
 
             }).catch(() => {
                 alert("erorr while signing in");
@@ -102,6 +108,7 @@ const Login = () => {
                 <div className="min-h-screen flex items-center justify-center">
                     <div className="p-10 bg-darkblue rounded-lg shadow-xl">
                         <h1 className="text-2xl font-bold mb-2 text-white">Log In</h1>
+                        {/* <p className='text-white'>{console.log(mainuser)}</p> */}
                         <p className="mb-8 text-white flex">New to Neon? <span onClick={loginRedirect} className="text-lightblue cursor-pointer ml-2">Sign up for an account</span></p>
                         <form>
 
