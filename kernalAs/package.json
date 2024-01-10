@@ -10,11 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "aws-sdk": "^2.1532.0",
     "firebase": "^10.7.1",
     "firebase-admin": "^12.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-drag-drop-files": "^2.3.10",
+    "react-dropzone": "^14.2.3",
     "react-native-svg": "^14.1.0",
     "react-router-dom": "^6.21.1",
     "recoil": "^0.7.7"

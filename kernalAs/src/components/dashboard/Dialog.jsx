@@ -1,16 +1,65 @@
 // Dialog.js
-
+import { doc, addDoc, collection } from 'firebase/firestore';
 import React, { useState } from 'react';
 import { FileUploader } from 'react-drag-drop-files';
 
-const Dialog = ({ isOpen, onClose, title, content }) => {
+import { auth, db } from '../../firebase/firebase';
+import { useUpload } from '../../hooks/r2'; //custom hook
+import FileSelector from './FileSelector';
+import { useRecoilValue } from 'recoil';
+import { fileType, isDropEnabled } from '../../context/atoms';
+import { useAddSource } from '../../hooks/addSource';
+
+
+const Dialog = ({ setIsOpen, isOpen, onClose, title, content }) => {
+    const embedding_model = "open_ai"
+    const isDropdownEnabled = useRecoilValue(isDropEnabled);
+    const mainfileType = useRecoilValue(fileType)
     const [name, setName] = useState("");
+    const [url, setUrl] = useState("");
     const [description, setDescription] = useState("");
+    const [isDisabled, setDisabled] = useState(true);
+    const usermail = auth?.currentUser?.email;
+
+    const createBot = async () => {
+        const createRes = await fetch("http://localhost:8080/api/create_bot", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                name: name,
+            }),
+        });
+
+        useAddSource(embedding_model, mainfileType, url)
+            .then((res) => {
+                console.log(res);
+            })
+        const collectionRef = collection(db, "Workspaces");
+        const payload = { name, description, usermail };
+
+        if (payload && collectionRef) {
+            const addedDoc = await addDoc(collectionRef, payload);
+            if (addedDoc) {
+                console.log("Added");
+                setIsOpen(false);
+            }
+        }
+        setName("")
+        setDescription("")
+
+    }
     const fileTypes = ["CSV", "PDF"];
     const handleChange = (file) => {
-        setFile(file);
+        console.log(file);
+        useUpload(file).then((url) => {
+            console.log(url);
+            setUrl(url);
+            setDisabled(false)
+        })
     };
-    const [isDialogOpen, setDialogOpen] = useState(false);
+
 
     return (
         <div
@@ -19,26 +68,45 @@ const Dialog = ({ isOpen, onClose, title, content }) => {
         >
             <div className="bg-gray-800 p-6 rounded-lg shadow-lg aspect-w-1 w-96 aspect-h-1 ">
                 <h2 className="text-2xl font-bold mb-4 text-white">Create Workspace</h2>
+
                 <div className='flex flex-col'>
                     <input
                         type='text'
                         className=' mt-1 px-3 py-2 bg-darkgray text-white w- rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-lightblue'
-                        placeholder='Title'>
+                        placeholder='Title'
+                        onChange={(e) => setName(e.target.value)}>
                     </input>
                     <input
                         type='text'
                         className='mt-3 px-3 py-2 bg-darkgray text-white rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-lightblue'
-                        placeholder='Description'>
+                        placeholder='Description'
+                        onChange={(e) => setDescription(e.target.value)}>
                     </input>
+                    <div className='relative mt-3'>
+                        <FileSelector />
+                    </div>
+
                 </div>
 
-                <div className='mt-3'>
-                    <FileUploader handleChange={handleChange} name="file" types={fileTypes} />
-                </div>
+                {
+                    !isDropdownEnabled && (
+                        (mainfileType === "youtube_video" || mainfileType === "web_page") ? (
+                            <div className='mt-3 rounded-md'>
+                                <input type="text" name="url" placeholder='Enter the URL' className="mt-1 px-3 py-2 bg-darkgray text-white w-full rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-lightblue" />
+                            </div>
+
+                        ) : (
+                            <div className='mt-3'>
+                                <FileUploader handleChange={handleChange} name="file" types={fileTypes} />
+                            </div>
+                        )
+                    )
+                }
+
                 <div className='flex justify-between'>
-                    <button
+                    <button disabled={isDisabled}
                         className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 "
-                        onClick={onClose}
+                        onClick={createBot}
                     >
                         Create
                     </button>
@@ -49,9 +117,11 @@ const Dialog = ({ isOpen, onClose, title, content }) => {
                         Close
                     </button>
                 </div>
-
             </div>
+
+
         </div>
+
     );
 };
 

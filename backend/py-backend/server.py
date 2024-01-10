@@ -1,5 +1,5 @@
 import os
-
+from flask_cors import CORS, cross_origin
 from flask import Flask
 from models import db
 from paths import DB_DIRECTORY_OPEN_AI, ROOT_DIRECTORY
@@ -8,6 +8,7 @@ from routes.dashboard import dashboard_bp
 from routes.sources import sources_bp
 
 app = Flask(__name__)
+CORS(app, support_credentials=True)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(ROOT_DIRECTORY, "database", "user_data.db")
 app.register_blueprint(dashboard_bp)
 app.register_blueprint(sources_bp)
@@ -24,4 +25,4 @@ def load_app():
 
 if __name__ == "__main__":
     load_app()
-    app.run(host="0.0.0.0", debug=True, port=8000)
+    app.run(host="0.0.0.0", debug=True, port=8080)
