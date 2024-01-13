@@ -8,6 +8,8 @@ import CreateWorkspace from "./components/dashboard/CreateWorkspace"
 
 import { useEffect } from "react"
 import { user } from "./context/atoms"
+import ChatWindow from "./containers/ChatWindow";
+import ChatPage from "./pages/ChatPage";
 
 export default function App() {
 
@@ -18,7 +20,8 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/forgotpassword" element={<ForgetPassword />} />
-        <Route path="/chat" element={<DashMain />} />
+        <Route path="/dash" element={<DashMain />} />
+        <Route path="/chat/:bot_slug" element={<ChatPage />} />
 
       </Routes>
     </Router>

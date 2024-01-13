@@ -1,96 +1,92 @@
-import React, { useRef, useState } from 'react'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { auth } from "../../firebase/firebase";
-import { GoogleAuthProvider } from "firebase/auth";
+import React, { useState, useEffect } from 'react';
+import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { auth } from '../../firebase/firebase';
+import { GoogleAuthProvider } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-import { Link } from "react-router-dom"
-
-import { user } from '../../context/atoms';
-
 
 const provider = new GoogleAuthProvider();
 
 const Login = () => {
-
-
     const navigate = useNavigate();
-    const loginRedirect = () => {
-        navigate("../signup")
-    }
+
+    const loginRedirect = (page) => {
+        navigate(`../${page}`);
+    };
 
     const [formData, setFormData] = useState({
         email: '',
-        password: ''
-    })
-    const [errors, setErrors] = useState({})
+        password: '',
+    });
+    const checkCurrentUser = () => {
+        if (auth?.currentUser?.displayName) {
+            loginRedirect('dash');
+        }
+    };
+
+    const [errors, setErrors] = useState({});
+    console.log(auth?.currentUser?.displayName);
+    useEffect(() => {
+        checkCurrentUser();
+
+
+    }, [auth]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
-            ...formData, [name]: value
-        })
-        console.log(formData)
-    }
+            ...formData,
+            [name]: value,
+        });
+    };
+
     const handleSubmit = (e) => {
-        e.preventDefault()
-        const validationErrors = {}
+        e.preventDefault();
+        const validationErrors = {};
+
         if (!formData.email.trim()) {
-            validationErrors.email = "email is required"
+            validationErrors.email = 'Email is required';
         } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-            validationErrors.email = "email is not valid"
+            validationErrors.email = 'Email is not valid';
         }
 
         if (!formData.password.trim()) {
-            validationErrors.password = "password is required"
+            validationErrors.password = 'Password is required';
         } else if (formData.password.length < 6) {
-            validationErrors.password = "password should be at least 6 char"
+            validationErrors.password = 'Password should be at least 6 characters';
         }
 
-        setErrors(validationErrors)
+        setErrors(validationErrors);
 
         if (Object.keys(validationErrors).length === 0) {
             register();
         }
+    };
 
-    }
     const register = async () => {
         try {
-            const user = await signInWithEmailAndPassword(
-                auth,
-                formData.email,
-                formData.password
-            );
-
-
-
-
-            console.log(user.user.email)
+            const user = await signInWithEmailAndPassword(auth, formData.email, formData.password);
+            console.log(user.user.email);
+            loginRedirect('dash');
         } catch (error) {
             console.error(error.message);
-            setErrors("Failed to create an account");
-        } finally {
-            // setLoading(false);
+            setErrors('Failed to create an account');
         }
     };
 
+    const onGoogleSignin = async () => {
+        try {
+            const result = await signInWithPopup(auth, provider);
+            const credential = GoogleAuthProvider.credentialFromResult(result);
 
-    async function onGoogleSignin() {
-        signInWithPopup(auth, provider)
-            .then((result) => {
-                const credential = GoogleAuthProvider.credentialFromResult(result);
-                if (!credential) {
-                    return;
-                }
-                if (credential) {
-                    const newuser = result.user;
-
-                }
-            }).catch(() => {
-                alert("erorr while signing in");
-            });
-
-
-    }
+            if (credential) {
+                const newuser = result.user;
+                loginRedirect('dash');
+            }
+        } catch (error) {
+            console.error('Error while signing in with Google:', error);
+            alert('Error while signing in');
+        }
+    };
     return (
         <div className="flex bg-black">
 
@@ -111,7 +107,7 @@ const Login = () => {
                     <div className="p-10 bg-darkblue rounded-lg shadow-xl">
                         <h1 className="text-2xl font-bold mb-2 text-white">Log In</h1>
 
-                        <p className="mb-8 text-white flex">New to Neon? <span onClick={loginRedirect} className="text-lightblue cursor-pointer ml-2">Sign up for an account</span></p>
+                        <p className="mb-8 text-white flex">New to Neon? <span onClick={() => loginRedirect("signup")} className="text-lightblue cursor-pointer ml-2">Sign up for an account</span></p>
                         <form>
 
                             <div className="mb-4">

@@ -4,46 +4,82 @@ import BotWrapper from "../components/chat/BotWrapper";
 import HumanWrapper from "../components/chat/HumanWrapper";
 import SetSources from "../containers/SetSources";
 import { useParams } from "react-router-dom";
+import { doc, addDoc, collection, getDoc, setDoc, updateDoc, FieldValue, arrayUnion } from 'firebase/firestore';
 
+import { auth, db } from '../firebase/firebase';
 export default function ChatWindow({ embedding_model, app_type, setBotTitle }) {
   const [bot, setBot] = useState(null);
   const [chats, setChats] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectChat, setSelectChat] = useState(true);
-
-  // const router = useRouter();
+  const usermail = auth?.currentUser?.email;
   const { bot_slug } = useParams();
 
+  const getbot = async () => {
+    const docRef = doc(db, "Workspaces", bot_slug);
+    const docsnap = await getDoc(docRef);
+    setBot(docsnap.data())
+
+    setChats(docsnap.data().chats)
+  }
   useEffect(() => {
     if (bot_slug) {
-      const fetchBots = async () => {
-        const response = await fetch("http://localhost:8080/api/get_bots");
-        const data = await response.json();
-        const matchingBot = data.find((item) => item.slug === bot_slug);
-        setBot(matchingBot);
-        setBotTitle(matchingBot.name);
-      };
-      fetchBots();
+      getbot()
+      // const fetchBots = async () => {
+      //   const response = await fetch("http://localhost:8080/api/get_bots");
+      //   const data = await response.json();
+      //   const matchingBot = data.find((item) => item.slug === bot_slug);
+      //   setBot(matchingBot);
+      //   setBotTitle(matchingBot.name);
+      // };
+      // fetchBots();
     }
   }, [bot_slug]);
 
   useEffect(() => {
     const storedChats = localStorage.getItem(`chat_${bot_slug}_${app_type}`);
+
     if (storedChats) {
       const parsedChats = JSON.parse(storedChats);
       setChats(parsedChats.chats);
     }
+
   }, [app_type, bot_slug]);
+  const addChat = async (payload) => {
+    try {
+      console.log(payload);
+      // Assuming db is a properly initialized Firestore instance
+      const workspaceRef = doc(db, 'Workspaces', bot_slug);
+
+      const data = await updateDoc(workspaceRef, {
+        chats: arrayUnion(payload)
+      });
+
+      console.log('Document successfully updated in Workspaces collection.');
+    } catch (error) {
+      console.error('Error updating document:', error);
+    }
+  };
 
   const handleChatResponse = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     const queryInput = e.target.query.value;
     e.target.query.value = "";
+    // const collectionRef = collection(db, "Workspaces");
+    // const docRef = db.collection("Workspaces").doc(bot_slug);
+    // const chatobject = {
+    //   sender: "H",
+    //   message: queryInput,
+    // }
     const chatEntry = {
       sender: "H",
       message: queryInput,
     };
+    addChat(chatEntry)
+    // console.log(datas);
+
+
     setChats((prevChats) => [...prevChats, chatEntry]);
 
     const response = await fetch("http://localhost:8080/api/get_answer", {
@@ -66,10 +102,12 @@ export default function ChatWindow({ embedding_model, app_type, setBotTitle }) {
         message: botResponse,
       };
       setIsLoading(false);
+      addChat(botEntry)
       setChats((prevChats) => [...prevChats, botEntry]);
       const savedChats = {
         chats: [...chats, chatEntry, botEntry],
       };
+
       localStorage.setItem(
         `chat_${bot_slug}_${app_type}`,
         JSON.stringify(savedChats)
@@ -83,6 +121,7 @@ export default function ChatWindow({ embedding_model, app_type, setBotTitle }) {
     <>
       <div className="flex flex-col justify-between h-full">
         <div className="space-y-4 overflow-x-auto h-full pb-8">
+
           {/* Greeting Message */}
           <BotWrapper>
             Hi, I am {bot?.name}. How can I help you today?
@@ -119,6 +158,7 @@ export default function ChatWindow({ embedding_model, app_type, setBotTitle }) {
             setChats={setChats}
             embedding_model={embedding_model}
             setSelectChat={setSelectChat}
+            bot_slug={bot_slug}
           />
           {selectChat && (
             <form

@@ -1,25 +1,24 @@
-import React, { useEffect, useState } from 'react'
-import CreateWorkspace from './CreateWorkspace'
-import WorkspaceList from './WorkSpacesList'
-import { auth, db } from '../../firebase/firebase';
-import { collection, onSnapshot } from 'firebase/firestore';
-
+import React from 'react';
+import { useWorkspaces } from '../../hooks/getWorkspaces';
+import WorkspaceList from './WorkSpacesList';
+import { useNavigate } from 'react-router-dom';
+import { auth } from '../../firebase/firebase';
 
 const DashMain = () => {
-    const [workspaces, setWorkspaces] = useState([]);
-    useEffect(() => {
-        onSnapshot(collection(db, "Workspaces"), (snapshot) => {
-            setWorkspaces(snapshot.docs.map(doc => doc.data()).filter(workspace => workspace.usermail === auth?.currentUser?.email))
-        })
-    }, [])
+    const workspaces = useWorkspaces();
+    const navigate = useNavigate();
+    const useremail = auth?.currentUser?.email;
+    if (!useremail) {
+        navigate("/login");
+    }
     return (
-        <div className='h-screen bg-gray-900  p-6'>
+        <div className='h-screen bg-gray-900 p-6'>
             <p className='text-white text-3xl'>Dashboard</p>
             {console.log(workspaces)}
             <WorkspaceList workspaces={workspaces} />
-            {/* <CreateWorkspace /> */}
-        </div>
-    )
-}
 
-export default DashMain
+        </div>
+    );
+};
+
+export default DashMain;

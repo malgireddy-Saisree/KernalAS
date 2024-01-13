@@ -5,7 +5,7 @@ import ChatWindow from "../containers/ChatWindow";
 const ChatPage = () => {
     const [botTitle, setBotTitle] = useState("");
     return (
-        <div>
+        <>
             <title>{botTitle}</title>
             <Sidebar />
             <Wrapper>
@@ -15,7 +15,7 @@ const ChatPage = () => {
                     setBotTitle={setBotTitle}
                 />
             </Wrapper>
-        </div>
+        </>
     )
 }
 

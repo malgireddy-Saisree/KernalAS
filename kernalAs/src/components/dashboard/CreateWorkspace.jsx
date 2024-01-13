@@ -1,9 +1,5 @@
 import React, { useState } from 'react'
 import Dialog from './Dialog';
-import { FileUploader } from "react-drag-drop-files";
-import { auth } from '../../firebase/firebase';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { user } from '../../context/atoms';
 const CreateWorkspace = () => {
 
 

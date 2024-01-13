@@ -1,8 +1,7 @@
 // Dialog.js
-import { doc, addDoc, collection } from 'firebase/firestore';
-import React, { useState } from 'react';
+import { addDoc, collection } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
 import { FileUploader } from 'react-drag-drop-files';
-
 import { auth, db } from '../../firebase/firebase';
 import { useUpload } from '../../hooks/r2'; //custom hook
 import FileSelector from './FileSelector';
@@ -37,10 +36,11 @@ const Dialog = ({ setIsOpen, isOpen, onClose, title, content }) => {
                 console.log(res);
             })
         const collectionRef = collection(db, "Workspaces");
-        const payload = { name, description, usermail };
+        const chats = []
+        const payload = { name, description, usermail, chats };
 
         if (payload && collectionRef) {
-            const addedDoc = await addDoc(collectionRef, payload);
+            const addedDoc = await addDoc(collectionRef, payload, chats);
             if (addedDoc) {
                 console.log("Added");
                 setIsOpen(false);
@@ -50,6 +50,12 @@ const Dialog = ({ setIsOpen, isOpen, onClose, title, content }) => {
         setDescription("")
 
     }
+
+    useEffect(() => {
+        if (mainfileType === "youtube_video" || mainfileType === "web_page") {
+            setDisabled(false)
+        }
+    }, [])
     const fileTypes = ["CSV", "PDF"];
     const handleChange = (file) => {
         console.log(file);
@@ -92,7 +98,7 @@ const Dialog = ({ setIsOpen, isOpen, onClose, title, content }) => {
                     !isDropdownEnabled && (
                         (mainfileType === "youtube_video" || mainfileType === "web_page") ? (
                             <div className='mt-3 rounded-md'>
-                                <input type="text" name="url" placeholder='Enter the URL' className="mt-1 px-3 py-2 bg-darkgray text-white w-full rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-lightblue" />
+                                <input type="text" name="url" placeholder='Enter the URL' onChange={e => setUrl(e.target.value)} className="mt-1 px-3 py-2 bg-darkgray text-white w-full rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-lightblue" />
                             </div>
 
                         ) : (
@@ -120,7 +126,7 @@ const Dialog = ({ setIsOpen, isOpen, onClose, title, content }) => {
             </div>
 
 
-        </div>
+        </div >
 
     );
 };

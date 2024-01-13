@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import { auth, db } from '../../firebase/firebase';
-import { user } from '../../context/atoms';
+import { useNavigate } from "react-router-dom";
 import Dialog from './Dialog';
+
 import { collection, onSnapshot } from 'firebase/firestore';
 
 
 const WorkspaceList = ({ workspaces }) => {
+    const navigate = useNavigate()
+    const onChatHandle = (id) => {
+        navigate(`/chat/${id}`);
+    }
+
 
     const [isDialogOpen, setDialogOpen] = useState(false);
     const openDialog = () => {
@@ -35,15 +39,16 @@ const WorkspaceList = ({ workspaces }) => {
             />
 
             {workspaces.map((workspace) => (
-                <div key={workspace.id} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 p-4">
-                    <div className="bg-gray-800 rounded-lg shadow-md p-6 h-full ">
+                <div key={workspace.id} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 p-4" onClick={() => onChatHandle(workspace.id)}>
+                    <div className="bg-gray-800 rounded-lg shadow-md p-6 h-full">
                         <h3 className="text-lg font-semibold mb-4 text-white whitespace-normal">
-                            {workspace.name}
+                            {workspace.data.name}
                         </h3>
-                        <p className="text-gray-600 whitespace-normal">{workspace.description}</p>
+                        <p className="text-gray-600 whitespace-normal">{workspace.data.description}</p>
                     </div>
                 </div>
             ))}
+
         </div>
 
     );
