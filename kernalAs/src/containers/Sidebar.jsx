@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 
 import DrawerIcon from "../../public/icons/drawer.svg";
 import SettingsIcon from "../../public/icons/settings.svg";
-import BotIcon from "../../public/icons/Bot.svg";
+import BotIcon from "../../public/icons/bot.svg";
 import DropdownIcon from "../../public/icons/dropdown.svg";
 import TwitterIcon from "../../public/icons/twitter.svg";
 import GithubIcon from "../../public/icons/github.svg";
