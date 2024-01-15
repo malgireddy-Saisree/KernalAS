@@ -47,7 +47,7 @@ export default function SetSources({
             let value = mainurl.current;
             setSourceValue("");
 
-            const response = await fetch("http://localhost:8080/api/add_sources", {
+            const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/api/add_sources`, {
                 method: "POST",
                 body: JSON.stringify({
                     embedding_model,
@@ -155,7 +155,7 @@ export default function SetSources({
         let name = sourceName;
         let value = sourceValue;
         setSourceValue("");
-        const response = await fetch("http://localhost:8080/api/add_sources", {
+        const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/api/add_sources`, {
             method: "POST",
             body: JSON.stringify({
                 embedding_model,

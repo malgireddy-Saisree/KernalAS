@@ -4,6 +4,7 @@ import BotWrapper from "../components/chat/BotWrapper";
 import HumanWrapper from "../components/chat/HumanWrapper";
 import SetSources from "../containers/SetSources";
 import { useParams } from "react-router-dom";
+
 import { doc, addDoc, collection, getDoc, setDoc, updateDoc, FieldValue, arrayUnion } from 'firebase/firestore';
 
 import { auth, db } from '../firebase/firebase';
@@ -82,7 +83,7 @@ export default function ChatWindow({ embedding_model, app_type, setBotTitle }) {
 
     setChats((prevChats) => [...prevChats, chatEntry]);
 
-    const response = await fetch("http://localhost:8080/api/get_answer", {
+    const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/api/get_answer`, {
       method: "POST",
       body: JSON.stringify({
         query: queryInput,
@@ -171,7 +172,7 @@ export default function ChatWindow({ embedding_model, app_type, setBotTitle }) {
                   name="query"
                   type="text"
                   placeholder="Enter your query..."
-                  className="text-sm w-full border-2 border-black rounded-xl focus:outline-none focus:border-blue-800 sm:pl-4 h-11"
+                  className="text-sm w-full border-2 p-3 border-black rounded-xl focus:outline-none focus:border-blue-800 sm:pl-4 h-11"
                   required
                 />
               </div>

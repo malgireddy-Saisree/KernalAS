@@ -1,5 +1,5 @@
 export const useAddSource = async (embedding_model, mainfileType, url) => {
-    const res = await fetch("http://localhost:8080/api/add_sources", {
+    const res = await fetch(`${import.meta.env.VITE_APP_API_URL}/api/add_sources`, {
         method: "POST",
         body: JSON.stringify({
             embedding_model,

@@ -1,4 +1,5 @@
 // Dialog.js
+
 import { addDoc, collection } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { FileUploader } from 'react-drag-drop-files';
@@ -20,8 +21,10 @@ const Dialog = ({ setIsOpen, isOpen, onClose, title, content }) => {
     const [isDisabled, setDisabled] = useState(true);
     const usermail = auth?.currentUser?.email;
 
+
+
     const createBot = async () => {
-        const createRes = await fetch("http://localhost:8080/api/create_bot", {
+        await fetch(`${import.meta.env.VITE_APP_API_URL}/api/create_bot`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -31,10 +34,12 @@ const Dialog = ({ setIsOpen, isOpen, onClose, title, content }) => {
             }),
         });
 
-        useAddSource(embedding_model, mainfileType, url)
-            .then((res) => {
-                console.log(res);
-            })
+        try {
+            const res = await useAddSource(embedding_model, mainfileType, url);
+            console.log(res);
+        } catch (error) {
+            console.error("Error adding source:", error);
+        }
         const collectionRef = collection(db, "Workspaces");
         const chats = []
         const payload = { name, description, usermail, chats };
@@ -110,7 +115,7 @@ const Dialog = ({ setIsOpen, isOpen, onClose, title, content }) => {
                 }
 
                 <div className='flex justify-between'>
-                    <button disabled={isDisabled}
+                    <button
                         className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 "
                         onClick={createBot}
                     >

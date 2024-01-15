@@ -53,16 +53,16 @@ export default function Sidebar() {
             </Link>
             <ul className="space-y-2 font-medium text-lg">
               {/* Settings */}
-              <li>
+              {/* <li>
                 <Link
                   to="/"
                   className="flex items-center p-2 text-gray-200 rounded-lg hover:bg-gray-300 hover:text-gray-900 group"
                 >
-                  {/* <SettingsIcon className="w-6 h-6 text-gray-600 transition duration-75 group-hover:text-gray-900" /> */}
+
                   <img className="w-6 h-6 text-gray-600 transition duration-75 group-hover:text-gray-900" src={SettingsIcon} alt="Your SVG" />
                   <span className="ml-3">Settings</span>
                 </Link>
-              </li>
+              </li> */}
 
               {/* Bots */}
               {bots.length !== 0 && (
