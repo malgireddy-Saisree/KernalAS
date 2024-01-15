@@ -1,9 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import Dialog from './Dialog';
-
-import { collection, onSnapshot } from 'firebase/firestore';
-
 
 const WorkspaceList = ({ workspaces }) => {
     const navigate = useNavigate()
@@ -37,17 +34,34 @@ const WorkspaceList = ({ workspaces }) => {
                 title="Sample Dialog"
                 content="This is the content of the dialog. You can add any information or components here."
             />
-
-            {workspaces.map((workspace) => (
-                <div key={workspace.id} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 p-4" onClick={() => onChatHandle(workspace.id)}>
-                    <div className="bg-gray-800 rounded-lg shadow-md p-6 h-full">
-                        <h3 className="text-lg font-semibold mb-4 text-white whitespace-normal">
-                            {workspace.data.name}
-                        </h3>
-                        <p className="text-gray-600 whitespace-normal">{workspace.data.description}</p>
+            {workspaces.length === 0 ? (
+                // <div class="flex items-center space-x-2">
+                //     <div class="animate-pulse rounded-full bg-gray-500 h-12 w-12"></div>
+                //     <div class="space-y-2">
+                //         <div class="animate-pulse rounded-md bg-gray-500 h-4 w-[200px]"> </div>
+                //         <div class="animate-pulse rounded-md bg-gray-500 h-4 w-[170px]"> </div>
+                //     </div>
+                // </div>
+                <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 p-4 animate-pulse">
+                    <div className="bg-gray-800 rounded-lg shadow-md p-8 h-full">
+                        <div className="h-4 bg-gray-400 mb-4 w-3/4 rounded-lg"></div>
+                        <div className="h-4 bg-gray-400 w-3/4 rounded-lg"></div>
                     </div>
                 </div>
-            ))}
+            ) : (
+                workspaces.map((workspace) => (
+                    <div key={workspace.id} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 p-4" onClick={() => onChatHandle(workspace.id)}>
+                        <div className="bg-gray-800 rounded-lg shadow-md p-6 h-full">
+                            <h3 className="text-lg font-semibold mb-4 text-white whitespace-normal">
+                                {workspace.data.name}
+                            </h3>
+                            <p className="text-gray-600 whitespace-normal">{workspace.data.description}</p>
+
+                        </div>
+                    </div>
+                ))
+            )}
+
 
         </div>
 

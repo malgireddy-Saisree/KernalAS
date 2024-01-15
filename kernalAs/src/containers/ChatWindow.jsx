@@ -151,7 +151,7 @@ export default function ChatWindow({ embedding_model, app_type, setBotTitle }) {
           )}
         </div>
 
-        <div className="bg-white fixed bottom-0 left-0 right-0 h-28 sm:h-16"></div>
+        <div className="bg-[#1E293B] fixed bottom-0 left-0 right-0 h-28 sm:h-16"></div>
 
         {/* Query Form */}
         <div className="flex flex-row gap-x-2 sticky bottom-3">
@@ -178,7 +178,7 @@ export default function ChatWindow({ embedding_model, app_type, setBotTitle }) {
               </div>
 
               <div className="w-full sm:w-fit">
-                <button
+                {/* <button
                   type="submit"
                   id="sender"
                   disabled={isLoading}
@@ -186,6 +186,16 @@ export default function ChatWindow({ embedding_model, app_type, setBotTitle }) {
                     } w-full bg-black hover:bg-blue-800 rounded-xl text-lg text-white px-6 h-11`}
                 >
                   Send
+                </button> */}
+                <button
+                  type="submit"
+                  id="sender"
+                  disabled={isLoading}
+                  className="col-span-2 stroke-slate-300 bg-slate-700 focus:stroke-blue-200 focus:bg-blue-600 border border-slate-600 hover:border-slate-300 rounded-lg p-2 duration-300 flex justify-center items-center h-11">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 24 24" fill="none">
+                    <path d="M7.39999 6.32003L15.89 3.49003C19.7 2.22003 21.77 4.30003 20.51 8.11003L17.68 16.6C15.78 22.31 12.66 22.31 10.76 16.6L9.91999 14.08L7.39999 13.24C1.68999 11.34 1.68999 8.23003 7.39999 6.32003Z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M10.11 13.6501L13.69 10.0601" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </svg>
                 </button>
               </div>
             </form>

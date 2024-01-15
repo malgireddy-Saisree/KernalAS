@@ -3,10 +3,10 @@ export default function HumanWrapper({ children }) {
     <>
       <div className="rounded-lg">
         <div className="flex items-center justify-start flex-row-reverse">
-          <div className="flex items-center justify-center h-10 w-10 rounded-full bg-blue-800 text-white flex-shrink-0">
+          <div className="flex items-center justify-center h-10 w-10 rounded-xl rounded-bl-none bg-blue-800 text-white flex-shrink-0">
             H
           </div>
-          <div className="mr-3 text-sm bg-blue-200 py-2 px-4 shadow-lg rounded-xl">
+          <div className="mr-3 text-sm bg-blue-200 py-2 px-4 shadow-lg rounded-xl rounded-br-none">
             <div>{children}</div>
           </div>
         </div>
