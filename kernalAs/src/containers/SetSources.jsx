@@ -12,7 +12,6 @@ import { useUpload } from "../hooks/r2";
 import { db } from "../firebase/firebase";
 import { doc, setDoc, arrayUnion } from 'firebase/firestore';
 
-
 export default function SetSources({
     setChats,
     embedding_model,
