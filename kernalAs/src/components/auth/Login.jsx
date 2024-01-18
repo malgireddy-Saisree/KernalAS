@@ -119,7 +119,7 @@ const Login = () => {
                                 <label htmlFor="password" className="block text-sm font-medium text-lightgray">Password</label>
                                 <input onChange={handleChange} type="password" name="password" className="mt-1 px-3 py-2 bg-darkgray text-white w-full rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-lightblue" />
                                 {errors.password && <span>{errors.password}</span>}
-                                <a href="#" className="text-sm text-lightblue float-right mt-2">Forgot Password?</a>
+                                <a href="/forgotpassword" className="text-sm text-lightblue float-right mt-2">Forgot Password?</a>
                             </div>
                             <div className="mb-6">
                                 <input type="checkbox" id="remember" className="rounded text-lightblue focus:ring-lightblue" />

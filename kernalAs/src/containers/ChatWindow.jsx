@@ -26,14 +26,6 @@ export default function ChatWindow({ embedding_model, app_type, setBotTitle }) {
   useEffect(() => {
     if (bot_slug) {
       getbot()
-      // const fetchBots = async () => {
-      //   const response = await fetch("http://localhost:8080/api/get_bots");
-      //   const data = await response.json();
-      //   const matchingBot = data.find((item) => item.slug === bot_slug);
-      //   setBot(matchingBot);
-      //   setBotTitle(matchingBot.name);
-      // };
-      // fetchBots();
     }
   }, [bot_slug]);
 
@@ -164,9 +156,9 @@ export default function ChatWindow({ embedding_model, app_type, setBotTitle }) {
           {selectChat && (
             <form
               onSubmit={handleChatResponse}
-              className="w-full flex flex-col sm:flex-row gap-y-2 gap-x-2"
+              className="w-full flex flex-col sm:flex-row gap-y-2 gap-x-2 "
             >
-              <div className="w-full">
+              <div className="w-full flex-shrink">
                 <input
                   id="query"
                   name="query"
@@ -178,15 +170,7 @@ export default function ChatWindow({ embedding_model, app_type, setBotTitle }) {
               </div>
 
               <div className="w-full sm:w-fit">
-                {/* <button
-                  type="submit"
-                  id="sender"
-                  disabled={isLoading}
-                  className={`${isLoading ? "opacity-60" : ""
-                    } w-full bg-black hover:bg-blue-800 rounded-xl text-lg text-white px-6 h-11`}
-                >
-                  Send
-                </button> */}
+              
                 <button
                   type="submit"
                   id="sender"

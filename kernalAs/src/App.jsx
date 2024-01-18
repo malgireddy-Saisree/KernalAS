@@ -10,20 +10,27 @@ import { useEffect } from "react"
 import { user } from "./context/atoms"
 import ChatWindow from "./containers/ChatWindow";
 import ChatPage from "./pages/ChatPage";
+import NavBar from "./components/NavBar";
 
 export default function App() {
 
 
   return (
+    <>
+    
     <Router>
+    <div className="h-screen bg-gray-900">
+    <NavBar/>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/forgotpassword" element={<ForgetPassword />} />
         <Route path="/dash" element={<DashMain />} />
         <Route path="/chat/:bot_slug" element={<ChatPage />} />
-
       </Routes>
+      </div>
     </Router>
+
+    </>
   )
 }
