@@ -6,7 +6,7 @@ const Success = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const data = location.state;
-    console.log(data);
+
     const dashNavigate = () => {
         navigate("/dash")
     }

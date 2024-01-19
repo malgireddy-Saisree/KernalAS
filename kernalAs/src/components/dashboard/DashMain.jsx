@@ -14,7 +14,7 @@ const DashMain = () => {
     return (
         <div className='h-auto bg-gray-900 p-6 w-full'>
             <p className='text-white text-3xl'>Dashboard</p>
-            {console.log(workspaces)}
+
             <WorkspaceList workspaces={workspaces} />
 
         </div>

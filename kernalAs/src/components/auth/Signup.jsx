@@ -8,8 +8,8 @@ import { Link, useNavigate } from "react-router-dom"
 const provider = new GoogleAuthProvider();
 const Signup = () => {
     const navigate = useNavigate();
-    const signupRedirect = () => {
-        navigate("/login");
+    const signupRedirect = (page) => {
+        navigate(`../${page}`);
     }
     const [formData, setFormData] = useState({
         username: '',
@@ -24,7 +24,7 @@ const Signup = () => {
         setFormData({
             ...formData, [name]: value
         })
-        console.log(formData)
+
     }
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -63,7 +63,8 @@ const Signup = () => {
                 formData.email,
                 formData.password
             );
-            console.log(user);
+
+            signupRedirect("dash")
         } catch (error) {
             console.error(error.message);
             setErrors("Failed to create an account");
@@ -73,25 +74,20 @@ const Signup = () => {
     };
 
 
-    async function onGoogleSignin() {
-        signInWithPopup(auth, provider)
-            .then((result) => {
-                // This gives you a Google Access Token. You can use it to access the Google API.
-                const credential = GoogleAuthProvider.credentialFromResult(result);
-                if (!credential) {
-                    return;
-                }
-                // The signed-in user info.
-                const user = result.user;
-                console.log(user);
-                // IdP data available using getAdditionalUserInfo(result)
-                // ...
-            }).catch(() => {
-                alert("erorr while signing in");
-            });
+    const onGoogleSignin = async () => {
+        try {
+            const result = await signInWithPopup(auth, provider);
+            const credential = GoogleAuthProvider.credentialFromResult(result);
 
-
-    }
+            if (credential) {
+                const newuser = result.user;
+                signupRedirect('dash');
+            }
+        } catch (error) {
+            console.error('Error while signing in with Google:', error);
+            alert('Error while signing in');
+        }
+    };
     return (
         <div className="flex bg-black">
 
@@ -111,7 +107,7 @@ const Signup = () => {
                 <div className="min-h-screen flex items-center justify-center">
                     <div className="p-10 bg-darkblue rounded-lg shadow-xl">
                         <h1 className="text-2xl font-bold mb-2 text-white">Sign Up</h1>
-                        <p className="mb-8 text-[#B6B6B6]">Already have an account? <span onClick={signupRedirect} className="text-lightblue cursor-pointer">Log in to your account</span></p>
+                        <p className="mb-8 text-[#B6B6B6]">Already have an account? <span onClick={() => signupRedirect("login")} className="text-lightblue cursor-pointer">Log in to your account</span></p>
                         <form>
                             <div className="mb-4">
                                 <label htmlFor="username" className="block text-sm font-medium text-[#B6B6B6]">Username</label>

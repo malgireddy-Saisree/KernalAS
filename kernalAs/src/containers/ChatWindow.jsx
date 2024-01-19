@@ -40,7 +40,7 @@ export default function ChatWindow({ embedding_model, app_type, setBotTitle }) {
   }, [app_type, bot_slug]);
   const addChat = async (payload) => {
     try {
-      console.log(payload);
+
       // Assuming db is a properly initialized Firestore instance
       const workspaceRef = doc(db, 'Workspaces', bot_slug);
 
@@ -70,7 +70,7 @@ export default function ChatWindow({ embedding_model, app_type, setBotTitle }) {
       message: queryInput,
     };
     addChat(chatEntry)
-    // console.log(datas);
+
 
 
     setChats((prevChats) => [...prevChats, chatEntry]);
@@ -170,7 +170,7 @@ export default function ChatWindow({ embedding_model, app_type, setBotTitle }) {
               </div>
 
               <div className="w-full sm:w-fit">
-              
+
                 <button
                   type="submit"
                   id="sender"

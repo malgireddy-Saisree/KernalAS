@@ -21,7 +21,6 @@ const NavBar = () => {
     return (
         <nav className='bg-gray-800 shadow-lg flex justify-between sticky top-0 w-full h-14 items-center'>
             <div className='cursor-pointer' onClick={() => { logoOnclick() }}>
-                {console.log(auth.currentUser)}
                 <img src={logo} className='w-10 h-10 cursor-pointer'></img>
             </div>
             <div className=''>
@@ -50,7 +49,7 @@ const NavBar = () => {
 
             ) : (
                 <div className='flex flex-cols'>
-                    <button className=''>Login</button>
+                    <button className='border rounded-lg text-white px-2 py-3 '>Login</button>
                     <button>Signup</button>
                 </div>
             )}

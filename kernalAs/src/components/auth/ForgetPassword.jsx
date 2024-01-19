@@ -21,7 +21,7 @@ const ForgetPassword = () => {
         setFormData({
             ...formData, [name]: value
         })
-        console.log(formData)
+
     }
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -46,9 +46,9 @@ const ForgetPassword = () => {
                 auth,
                 formData.email
             );
-            console.log(user);
+
         } catch (error) {
-            console.error(error.message);
+
             setErrors("Failed to create an account");
         } finally {
 

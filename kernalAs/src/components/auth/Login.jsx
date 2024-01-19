@@ -66,7 +66,6 @@ const Login = () => {
     const register = async () => {
         try {
             const user = await signInWithEmailAndPassword(auth, formData.email, formData.password);
-
             loginRedirect('dash');
         } catch (error) {
             console.error(error.message);

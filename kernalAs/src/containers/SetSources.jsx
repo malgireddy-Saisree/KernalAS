@@ -35,12 +35,12 @@ export default function SetSources({
         };
         setChats((prevChats) => [...prevChats, addDataSourceEntry]);
         if (addDataSourceEntry) {
-            console.log("reached")
+
             addChat(addDataSourceEntry)
         }
 
         useUpload(file).then(async (url) => {
-            console.log(url);
+
             mainurl.current = url;
             let name = sourceName;
             let value = mainurl.current;
@@ -124,7 +124,7 @@ export default function SetSources({
     };
     const addChat = async (payload) => {
         try {
-            console.log(payload);
+
 
             const workspaceRef = doc(db, 'Workspaces', bot_slug);
 

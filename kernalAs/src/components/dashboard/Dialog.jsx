@@ -24,7 +24,7 @@ const Dialog = ({ setIsOpen, isOpen, onClose, title, content }) => {
 
 
     const createBot = async () => {
-        console.log("reached");
+
         await fetch(`${import.meta.env.VITE_APP_API_URL}/api/create_bot`, {
             method: "POST",
             headers: {
@@ -37,7 +37,7 @@ const Dialog = ({ setIsOpen, isOpen, onClose, title, content }) => {
 
         try {
             const res = await useAddSource(embedding_model, mainfileType, url);
-            console.log(res);
+
         } catch (error) {
             console.error("Error adding source:", error);
         }
@@ -48,7 +48,7 @@ const Dialog = ({ setIsOpen, isOpen, onClose, title, content }) => {
         if (payload && collectionRef) {
             const addedDoc = await addDoc(collectionRef, payload, chats);
             if (addedDoc) {
-                console.log("Added");
+
                 setIsOpen(false);
             }
         }
@@ -64,9 +64,9 @@ const Dialog = ({ setIsOpen, isOpen, onClose, title, content }) => {
     }, [])
     const fileTypes = ["CSV", "PDF"];
     const handleChange = (file) => {
-        console.log(file);
+
         useUpload(file).then((url) => {
-            console.log(url);
+
             setUrl(url);
             setDisabled(false)
         })
