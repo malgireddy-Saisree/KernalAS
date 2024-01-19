@@ -3,6 +3,7 @@ import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth } from '../../firebase/firebase';
 import { GoogleAuthProvider } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import Logo from "../../assets/mern-media-logo.png"
 
 const provider = new GoogleAuthProvider();
 
@@ -24,7 +25,7 @@ const Login = () => {
     };
 
     const [errors, setErrors] = useState({});
-    console.log(auth?.currentUser?.displayName);
+
     useEffect(() => {
         checkCurrentUser();
 
@@ -65,7 +66,7 @@ const Login = () => {
     const register = async () => {
         try {
             const user = await signInWithEmailAndPassword(auth, formData.email, formData.password);
-            console.log(user.user.email);
+
             loginRedirect('dash');
         } catch (error) {
             console.error(error.message);
@@ -91,15 +92,10 @@ const Login = () => {
         <div className="flex bg-black">
 
             <div className="w-full md:w-2/5 bg-black flex justify-center items-center h-screen max-sm:hidden max-md:hidden">
-                <div>
-                    <h1 className="text-4xl font-bold mb-4 text-white">Daily Code</h1>
-                    <div className="grid grid-cols-3 gap-4">
-                        {[...Array(9)].map((_, index) => (
-                            <div key={index} className="opacity-50">
-                                <i className="fas fa-arrow-down fa-3x"></i>
-                            </div>
-                        ))}
-                    </div>
+                <div className='flex items-center justify-center'>
+                    <img className='w-14 h-14' src={Logo}></img>
+                    <h1 className="text-4xl font-bold p-2 text-white">KernalAs</h1>
+
                 </div>
             </div>
             <div className="w-full h-screen md:w-3/5 bg-gray-900 flex justify-center items-center">

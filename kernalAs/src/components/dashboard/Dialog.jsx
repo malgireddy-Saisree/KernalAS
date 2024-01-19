@@ -24,6 +24,7 @@ const Dialog = ({ setIsOpen, isOpen, onClose, title, content }) => {
 
 
     const createBot = async () => {
+        console.log("reached");
         await fetch(`${import.meta.env.VITE_APP_API_URL}/api/create_bot`, {
             method: "POST",
             headers: {
