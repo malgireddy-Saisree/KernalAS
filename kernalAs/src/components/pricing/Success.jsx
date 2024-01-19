@@ -10,6 +10,22 @@ const Success = () => {
     const dashNavigate = () => {
         navigate("/dash")
     }
+    const expiresOn = (timestamp) => {
+        const date = new Date(timestamp * 1000);
+        date.setDate(date.getDate() + 30);
+
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1; // Adding 1 to get the correct month
+        const day = date.getDate();
+        const hours = date.getHours();
+        const minutes = date.getMinutes();
+        const seconds = date.getSeconds();
+
+        return `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day} ${hours}:${minutes}:${seconds}`;
+    };
+
+    // Example usage
+
 
 
     const timeConverter = (timestamp) => {
@@ -36,8 +52,8 @@ const Success = () => {
                     <p class="text-gray-400 mb-3 text-base leading-relaxed">Plan : {data.planName}</p>
                     <p class="text-gray-400 mb-3 text-base leading-relaxed">Amount : {data.amount}</p>
                     <p class="text-gray-400 mb-3 text-base leading-relaxed">Order Id : {data.razorpay_order_id}</p>
-                    <p class="text-gray-400 mb-8 text-base leading-relaxed">Purchased : {timeConverter(data.createdAt)}</p>
-
+                    <p class="text-gray-400 mb-3 text-base leading-relaxed">Purchased : {timeConverter(data.createdAt)}</p>
+                    <p className='text-gray-400 mb-8 text-base leading-relaxed'>Expires On : {expiresOn(data.createdAt)}</p>
                 </div>
 
                 <div class="flex flex-wrap gap-3">

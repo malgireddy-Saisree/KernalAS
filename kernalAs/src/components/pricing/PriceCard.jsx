@@ -7,7 +7,7 @@ const PriceCard = ({ plan }) => {
     const handlePayment = async (amount, plan) => {
         const planName = plan;
         // Make a request to your server to create a Razorpay order
-        const response = await axios.post('http://10.231.16.25:3001/create-order',
+        const response = await axios.post('http://64.227.177.24:3001/create-order',
             {
                 amount: amount * 100
             });
@@ -58,9 +58,6 @@ const PriceCard = ({ plan }) => {
                                     </svg>
                                     <span class="text-slate-500 text-md">{feature}</span>
                                 </div>
-                                // <div className="w-80">
-                                //     <p class="mt-2 text-sm text-gray-500">{feature}</p>
-                                // </div>
 
                             )
 

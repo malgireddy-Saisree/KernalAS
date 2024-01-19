@@ -5,7 +5,11 @@ export const plans = [
         features: [
             "10 Workspaces",
             "GPT 3.5 turbo access",
-            "PDF, DOCS available"
+            "PDF, DOCS available",
+            "support",
+            "1000 chats",
+            "3 profiles",
+            "250mb cloud storage"
         ]
     },
     {
@@ -14,7 +18,11 @@ export const plans = [
         features: [
             "25 Workspaces",
             "GPT 4 access",
-            "PDF, DOCS, Web Pages, YouTube Videos available"
+            "PDF, DOCS, Web Pages, YouTube Videos available",
+            "priority support",
+            "unlimited chat",
+            "unlimited profiles",
+            "500mb cloud storage"
         ]
     }
 ]
