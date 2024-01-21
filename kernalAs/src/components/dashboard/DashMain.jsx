@@ -4,6 +4,7 @@ import WorkspaceList from './WorkSpacesList';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../../firebase/firebase';
 
+
 const DashMain = () => {
     const workspaces = useWorkspaces();
     const navigate = useNavigate();

@@ -9,9 +9,10 @@ import FileSelector from './FileSelector';
 import { useRecoilValue } from 'recoil';
 import { fileType, isDropEnabled } from '../../context/atoms';
 import { useAddSource } from '../../hooks/addSource';
+import { Toaster, toast } from 'sonner';
 
 
-const Dialog = ({ setIsOpen, isOpen, onClose, title, content }) => {
+const Dialog = ({ setIsOpen, isOpen, onClose, successToast,errorToast }) => {
     const embedding_model = "open_ai"
     const isDropdownEnabled = useRecoilValue(isDropEnabled);
     const mainfileType = useRecoilValue(fileType)
@@ -48,9 +49,9 @@ const Dialog = ({ setIsOpen, isOpen, onClose, title, content }) => {
         if (payload && collectionRef) {
             const addedDoc = await addDoc(collectionRef, payload, chats);
             if (addedDoc) {
-
                 setIsOpen(false);
             }
+            successToast("Workspace Created Successfully!");
         }
         setName("")
         setDescription("")
@@ -116,6 +117,7 @@ const Dialog = ({ setIsOpen, isOpen, onClose, title, content }) => {
                 }
 
                 <div className='flex justify-between'>
+
                     <button
                         className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 "
                         onClick={createBot}

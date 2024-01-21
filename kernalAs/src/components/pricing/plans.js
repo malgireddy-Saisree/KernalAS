@@ -24,5 +24,6 @@ export const plans = [
             "unlimited profiles",
             "500mb cloud storage"
         ]
-    }
+    },
+   
 ]
