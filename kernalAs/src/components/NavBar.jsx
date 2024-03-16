@@ -35,7 +35,7 @@ const NavBar = () => {
                         <Link to={"/contactus"} className='text-white p-2'>Contact Us</Link>
                     </div>
                     <div>
-                        <Link to={"/aboutus"} className='text-white p-2'>About Us</Link>
+                        <Link  to={"/aboutus"} className='text-white p-2'>About Us</Link>
                     </div>
                 </div>
             </div>
